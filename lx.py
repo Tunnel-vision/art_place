@@ -52,4 +52,4 @@ def main4():
     print(res.text)
 
 if __name__ == '__main__':
-    main4()
+    main2()

@@ -19,6 +19,7 @@ def make_response(status=200, msg="", data=''):
     )
     return json.dumps(result)
 
+
 class Article(View):
 
     def get(self, request):
@@ -80,26 +81,117 @@ class ArticleList(View):
         data_2004 = {}
         data_2005 = {}
         data_2006 = {}
+        data_2007 = {}
+        data_2008 = {}
+        data_2009 = {}
+        data_2010 = {}
+        data_2011 = {}
+        data_2012 = {}
+        data_2013 = {}
+        data_2014 = {}
+        data_2015 = {}
+        data_2016 = {}
+        data_2017 = {}
+        data_2018 = {}
+        data_2019 = {}
+        data_2020 = {}
         all_articles = ArticleModel.objects.all()
-        for article in all_articles[:1000]:
+        for article in all_articles:
             # print(article.publish_time)
             # print(type(article.publish_time))
             # print(article.title)
             tags_list = article.tagsmodel_set.all()
-            if article.publish_time.year == 2001:
+            if article.publish_time.year == 2000:
+                data = data_2000
+            elif article.publish_time.year == 2001:
                 data = data_2001
-                for tag in tags_list:
-                    big_tag = tag.big_tag
-                    small_tag = tag.small_tag
-                    if big_tag in data:
-                        if small_tag not in data[big_tag].keys():
-                            data[big_tag][small_tag] = [article.title]
-                        else:
-                            data[big_tag][small_tag].append(article.title)
+            elif article.publish_time.year == 2002:
+                data = data_2002
+            elif article.publish_time.year == 2003:
+                data = data_2003
+            elif article.publish_time.year == 2004:
+                data = data_2004
+            elif article.publish_time.year == 2005:
+                data = data_2005
+            elif article.publish_time.year == 2006:
+                data = data_2006
+            elif article.publish_time.year == 2007:
+                data = data_2007
+            elif article.publish_time.year == 2008:
+                data = data_2008
+            elif article.publish_time.year == 2009:
+                data = data_2009
+            elif article.publish_time.year == 2010:
+                data = data_2010
+            elif article.publish_time.year == 2011:
+                data = data_2011
+            elif article.publish_time.year == 2012:
+                data = data_2012
+            elif article.publish_time.year == 2013:
+                data = data_2013
+            elif article.publish_time.year == 2014:
+                data = data_2014
+            elif article.publish_time.year == 2015:
+                data = data_2015
+            elif article.publish_time.year == 2016:
+                data = data_2016
+            elif article.publish_time.year == 2017:
+                data = data_2017
+            elif article.publish_time.year == 2018:
+                data = data_2018
+            elif article.publish_time.year == 2019:
+                data = data_2019
+            elif article.publish_time.year == 2020:
+                data = data_2020
+            for tag in tags_list:
+                big_tag = tag.big_tag
+                small_tag = tag.small_tag
+                if big_tag in data:
+                    if small_tag not in data[big_tag].keys():
+                        data[big_tag][small_tag] = 1
                     else:
-                        data[big_tag] = {small_tag: [article.title]}
-        return HttpResponse(json.dumps(data_2001), content_type='application/json')
+                        data[big_tag][small_tag] += 1
+                else:
+                    data[big_tag] = {small_tag: 1}
 
+        def dict_to_list(data_dict):
+            result_alist = []
+            for big_tag,values in data_dict.items():
+                big_tag_list = []
+                for small_tag,count in values.items():
+                    adict = dict(
+                        small_tag=small_tag,
+                        count=count
+                    )
+                    big_tag_list.append(adict)
+                result_alist.append({big_tag: big_tag_list})
+            return result_alist
+        result = [
+            {"2000": dict_to_list(data_2000)},
+            {"2001": dict_to_list(data_2001)},
+            {"2002": dict_to_list(data_2002)},
+            {"2003": dict_to_list(data_2003)},
+            {"2004": dict_to_list(data_2004)},
+            {"2005": dict_to_list(data_2005)},
+            {"2006": dict_to_list(data_2006)},
+            {"2007": dict_to_list(data_2007)},
+            {"2008": dict_to_list(data_2008)},
+            {"2009": dict_to_list(data_2009)},
+            {"2010": dict_to_list(data_2010)},
+            {"2011": dict_to_list(data_2011)},
+            {"2012": dict_to_list(data_2012)},
+            {"2013": dict_to_list(data_2013)},
+            {"2014": dict_to_list(data_2014)},
+            {"2015": dict_to_list(data_2015)},
+            {"2016": dict_to_list(data_2016)},
+            {"2017": dict_to_list(data_2017)},
+            {"2018": dict_to_list(data_2018)},
+            {"2019": dict_to_list(data_2019)},
+            {"2020": dict_to_list(data_2020)},
+        ]
+
+        # return HttpResponse(json.dumps(data_2001), content_type='application/json')
+        return JsonResponse(data={"data": result})
         data = [
             {
                 "2000": [
@@ -158,9 +250,6 @@ class ArticleList(View):
         return HttpResponse(json.dumps({"status": "ok"}), content_type='application/json')
 
 
-
-
-
 class ArticleYearView(View):
 
     def get(self, request):
@@ -202,7 +291,7 @@ class ArticleYearView(View):
                 big_tag = tag.big_tag
                 small_tag = tag.small_tag
                 if small_tag == filter_small_tag:
-                    item = {"title": article.title.replace('\u00bb','').replace("\u00ab",''), "url": article.url, }
+                    item = {"title": article.title.replace('\u00bb', '').replace("\u00ab", ''), "url": article.url, }
                     if article.publish_time.month == Jan:
                         Jan_list.append(item)
                     elif article.publish_time.month == Fab:
@@ -232,8 +321,6 @@ class ArticleYearView(View):
         return JsonResponse({"data": alist})
 
 
-
-
 class ArticleTagView(View):
 
     def get(self, request):
@@ -241,7 +328,7 @@ class ArticleTagView(View):
         try:
             article_obj = ArticleModel.objects.get(url=article_url)
         except:
-            return HttpResponse(make_response(status=400,msg="输入的查询url 异常，请重试"),content_type='application/json')
+            return HttpResponse(make_response(status=400, msg="输入的查询url 异常，请重试"), content_type='application/json')
         tags_list = article_obj.tagsmodel_set.all()
         alist = []
         for tag in tags_list:
