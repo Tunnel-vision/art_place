@@ -37,7 +37,9 @@ def main1():
 
 
 def main2():
-    url = 'http://127.0.0.1:8000/flux/article/list'
+    # 170.106.34.196
+    # url = 'http://127.0.0.1:8000/flux/article/list'
+    url = 'http://170.106.34.196:8000/flux/article/list'
     res = requests.get(url)
     print(res.text)
 
