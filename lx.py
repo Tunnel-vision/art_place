@@ -30,7 +30,7 @@ def main1():
         big_tag, small_tag = key.split("=")
         if big_tag and small_tag:
             # print(big_tag, small_tag)
-            url = 'http://127.0.0.1:8000/flux/tag'
+            url = 'http://127.0.0.1:80/flux/tag'
             data = {"big_tag": big_tag, "small_tag": small_tag}
             res = requests.put(url, data=json.dumps(data))
             print(res)
@@ -39,7 +39,7 @@ def main1():
 def main2():
     # 170.106.34.196
     # url = 'http://127.0.0.1:8000/flux/article/list'
-    url = 'http://170.106.34.196:8000/flux/article/list'
+    url = 'http://127.0.0.16:80/flux/article/list'
     res = requests.get(url)
     print(res.text)
 
@@ -55,3 +55,21 @@ def main4():
 
 if __name__ == '__main__':
     main2()
+
+
+'''
+http://127.0.0.1:80/flux/article/list
+展示 2000-2020  趋势图   
+method: GET
+
+http://127.0.0.1:80/flux/tag/list?filter=2002&small_tag=globalization
+展示某个年份下某个标签的情况
+filter  string 年份
+small_tag  string 二级标签
+
+
+http://127.0.0.1:80/flux/article/tag?article_url=/announcements/43875/should-i-stay-or-should-i-go/
+展示某一篇文章的 所有的标签
+article_url string  文章的url
+
+'''
