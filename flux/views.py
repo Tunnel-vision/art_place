@@ -70,6 +70,42 @@ class TagView(View):
         return HttpResponse(content={"status": "success"})
 
 
+class ArticleList_back(View):
+
+    def get(self, request):
+        data = {}
+        all_articles = ArticleModel.objects.all()
+        for article in all_articles:
+            year = str(article.publish_time.year)
+            index = int(year[-1] if year[-2:].startswith("0") else year[-2:])
+            tags_list = article.tagsmodel_set.all()
+            for tag in tags_list:
+                big_tag = tag.big_tag
+                small_tag = tag.small_tag
+                if big_tag in data:
+                    if small_tag not in data[big_tag].keys():
+                        data[big_tag][small_tag] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                        data[big_tag][small_tag][index] += 1
+                    else:
+                        data[big_tag][small_tag][index] += 1
+                else:
+                    data[big_tag] = {
+                        small_tag: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+                    data[big_tag][small_tag][index] += 1
+
+        return JsonResponse(data={"data": data})
+
+
+#         '''
+#         {
+#         "largeSort": "urbanization",
+#         "letterSort": [{
+#                 "small_tag": "economy",
+#                 "count": [4, 4, 4, 11, 22, 37, 50, 51, 72, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+#             }, {
+#         '''
+
+
 class ArticleList(View):
 
     def get(self, request):
@@ -156,9 +192,9 @@ class ArticleList(View):
 
         def dict_to_list(data_dict):
             result_alist = []
-            for big_tag,values in data_dict.items():
+            for big_tag, values in data_dict.items():
                 big_tag_list = []
-                for small_tag,count in values.items():
+                for small_tag, count in values.items():
                     adict = dict(
                         small_tag=small_tag,
                         count=count
@@ -166,6 +202,7 @@ class ArticleList(View):
                     big_tag_list.append(adict)
                 result_alist.append({big_tag: big_tag_list})
             return result_alist
+
         result = [
             {"2000": dict_to_list(data_2000)},
             {"2001": dict_to_list(data_2001)},
@@ -189,65 +226,7 @@ class ArticleList(View):
             {"2019": dict_to_list(data_2019)},
             {"2020": dict_to_list(data_2020)},
         ]
-
-        # return HttpResponse(json.dumps(data_2001), content_type='application/json')
         return JsonResponse(data={"data": result})
-        data = [
-            {
-                "2000": [
-                    {
-                        "technology": [
-                            {
-                                "small_tag": "algorithm222",
-                                "count": 100,
-                            },
-                            {
-                                "small_tag": "algorithm333",
-                                "count": 100,
-                            },
-                        ]},
-                    {
-                        "Game": [
-                            {
-                                "small_tag": "Game111",
-                                "count": 100,
-                            },
-                            {
-                                "small_tag": "Game2222",
-                                "count": 100,
-                            },
-                        ]}
-                ]
-            },
-
-            {
-                "2001": [
-                    {
-                        "technology": [
-                            {
-                                "small_tag": "algorithm444",
-                                "count": 100,
-                            },
-                            {
-                                "small_tag": "algorithm5555",
-                                "count": 100,
-                            },
-                        ]},
-                    {
-                        "Game": [
-                            {
-                                "small_tag": "Game4444",
-                                "count": 100,
-                            },
-                            {
-                                "small_tag": "Game555",
-                                "count": 100,
-                            },
-                        ]}
-                ]
-            },
-        ]
-        return HttpResponse(json.dumps({"status": "ok"}), content_type='application/json')
 
 
 class ArticleYearView(View):

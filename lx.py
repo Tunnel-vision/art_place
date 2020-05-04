@@ -30,7 +30,7 @@ def main1():
         big_tag, small_tag = key.split("=")
         if big_tag and small_tag:
             # print(big_tag, small_tag)
-            url = 'http://127.0.0.1:80/flux/tag'
+            url = 'http://127.0.0.1:8000/flux/tag'
             data = {"big_tag": big_tag, "small_tag": small_tag}
             res = requests.put(url, data=json.dumps(data))
             print(res)
@@ -39,7 +39,7 @@ def main1():
 def main2():
     # 170.106.34.196
     # url = 'http://127.0.0.1:8000/flux/article/list'
-    url = 'http://127.0.0.16:80/flux/article/list'
+    url = 'http://127.0.0.1:8000/flux/article/list'
     res = requests.get(url)
     print(res.text)
 
