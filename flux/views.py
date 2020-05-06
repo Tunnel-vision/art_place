@@ -314,9 +314,11 @@ class ArticleTagView(View):
             big_tag = tag.big_tag
             small_tag = tag.small_tag
             alist.append(small_tag)
+        data = {"tags_list": alist, "text": article_obj.text.replace("\u00a0", ''), "title": article_obj.title,
+                "publish_time": article_obj.publish_time}
         result = dict(
             status=200,
             msg="成功",
-            data=alist
+            data=data
         )
         return JsonResponse(data=result)
