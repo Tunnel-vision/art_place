@@ -37,25 +37,34 @@ def main1():
 
 
 def main2():
-    # 170.106.34.196
+    # 170.106.34.195
     # url = 'http://127.0.0.1:8000/flux/article/list'
     url = 'http://127.0.0.1:8000/flux/article/list'
     res = requests.get(url)
     print(res.text)
+
 
 def main3():
     url = 'http://127.0.0.1:8000/flux/tag/list?filter=2002&small_tag=globalization'
     res = requests.get(url)
     print(res.text)
 
+
 def main4():
-    url = 'http://127.0.0.1:8000/flux/article/tag?article_url=/announcements/43875/should-i-stay-or-should-i-go/'
+    url = 'http://:443/flux/article/tag?article_url=/announcements/43875/should-i-stay-or-should-i-go/'
     res = requests.get(url)
     print(res.text)
 
-if __name__ == '__main__':
-    main4()
 
+# article/count
+def main5():
+    url = 'http://127.0.0.1:8000/flux/article/count?year=2011'
+    res = requests.get(url)
+    print(res.text)
+
+
+if __name__ == '__main__':
+    main5()
 
 '''
 http://127.0.0.1:80/flux/article/list

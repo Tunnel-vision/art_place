@@ -4,7 +4,7 @@ __time__ = '2020/4/28 15:52'
 
 from django.urls import path, re_path
 
-from .views import Article, TagView, ArticleList, ArticleYearView, ArticleTagView, ArticleList_back
+from .views import Article, TagView, ArticleList, ArticleYearView, ArticleTagView, ArticleList_back, ArticleCount
 
 app_name = "flux"
 
@@ -18,5 +18,8 @@ urlpatterns = [
     # 查找某一篇文章下，对应的所有的标签
     path("article/tag", ArticleTagView.as_view(), name="article_tag"),
     # 上传数据
-    path("tag", TagView.as_view(), name="tag")
+    path("tag", TagView.as_view(), name="tag"),
+    #
+    # 根据年份统计数据
+    path("article/count", ArticleCount.as_view(), name="article_count")
 ]

@@ -96,6 +96,14 @@ class ArticleList_back(View):
         return JsonResponse(data={"data": data})
 
 
+class ArticleCount(View):
+
+    def get(self, request):
+        year = request.GET.get("year")
+        count = ArticleModel.objects.filter(publish_time__year=int(year)).count()
+        return JsonResponse(data={"count": count})
+
+
 #         '''
 #         {
 #         "largeSort": "urbanization",
